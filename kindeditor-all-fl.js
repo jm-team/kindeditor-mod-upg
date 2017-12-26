@@ -86,10 +86,10 @@ function _removeUnit(val) {
 	return val && (match = /(\d+)/.exec(val)) ? parseInt(match[1], 10) : 0;
 }
 function _escape(val) {
-	return val.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	return val.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 function _unescape(val) {
-	return val.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+	return val.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, '\'').replace(/&amp;/g, '&');
 }
 function _toCamel(str) {
 	var arr = str.split('-');
@@ -622,7 +622,7 @@ K.ctrl = _ctrl;
 K.ready = _ready;
 
 function _getCssList(css) {
-	css = css.replace(/&quot;/g, '"');
+	css = css.replace(/&quot;/g, '"').replace(/&apos;/g, '\'');
 	var list = {},
 		reg = /\s*([\w\-]+)\s*:([^;]*)(;|$)/g,
 		match;
@@ -894,7 +894,8 @@ function _formatHtml(html, htmlTags, urlType, wellFormatted, indentChar) {
 				if (key === 'style' && val === '') {
 					return;
 				}
-				val = val.replace(/"/g, '&quot;');
+				//val = val.replace(/"/g, '&quot;');
+				val = val.replace(/'|"/g, '&apos;');
 				attr += ' ' + key + '="' + val + '"';
 			});
 		}
